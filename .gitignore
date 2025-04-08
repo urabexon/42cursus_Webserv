@@ -1,0 +1,29 @@
+# Start of Selection
+# Build artifacts
+obj
+*.out
+build/
+
+# IDE configurations
+.idea/
+.vscode/
+
+# Test files
+googletest/
+etc/test/*
+tests/*
+
+
+# Configuration and variable files
+docker/
+var/
+
+# Miscellaneous
+.cursorrules
+*.py
+*.sh
+.DS_Store
+CMakeLists.txt
+requirement/
+.clang-tidy
+# End of Selection
