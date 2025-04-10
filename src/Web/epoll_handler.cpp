@@ -276,7 +276,7 @@ bool EpollHandler::RegisterEvent(Event *event_handler, uint32_t events)
     return false;
 
   epoll_event ev;
-  ev.events = events | EPOLLRDHUP | EPOLLERR;
+  ev.events = events | EPOLLRDHUP | EPOLLERR | EPOLLHUP;
   ev.data.ptr = event_handler;
   return epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, event_handler->getFd(), &ev) == 0;
 }
@@ -287,7 +287,7 @@ bool EpollHandler::UpdateEvent(Event *event_handler, uint32_t events)
     return false;
 
   epoll_event ev;
-  ev.events = events | EPOLLRDHUP | EPOLLERR;
+  ev.events = events | EPOLLRDHUP | EPOLLERR | EPOLLHUP;
   ev.data.ptr = event_handler;
   return epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, event_handler->getFd(), &ev) == 0;
 }

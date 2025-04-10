@@ -2,6 +2,7 @@
 #define CGI_HANDLER_HPP
 
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include "../Web/client_connection.h"
 #include "../Web/event.h"

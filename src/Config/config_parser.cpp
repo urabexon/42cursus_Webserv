@@ -690,23 +690,28 @@ void ConfigParser::ParseListenOptions(std::string &remaining, bool &is_default)
 void ConfigParser::ParseServerNameDirective(const std::string &value,
                                             ServerConfig *server)
 {
-  std::string name = libft::FT_Trim(value);
+  std::string remaining = value;
+  std::string token;
 
-  if (name.length() >= 2)
-  {
-    if ((name[0] == '"' && name[name.length() - 1] == '"') ||
-        (name[0] == '\'' && name[name.length() - 1] == '\''))
+  while (!(token = parsing_utils::GetNextToken(remaining)).empty()) {
+    std::string name = libft::FT_Trim(token);
+
+    if (name.length() >= 2)
     {
-      name = name.substr(1, name.length() - 2);
+      if ((name[0] == '"' && name[name.length() - 1] == '"') ||
+          (name[0] == '\'' && name[name.length() - 1] == '\''))
+      {
+        name = name.substr(1, name.length() - 2);
+      }
     }
-  }
 
-  if (name.find("..") != std::string::npos)
-  {
-    throw std::runtime_error("invalid server name or wildcard \"" + name + "\"");
-  }
+    if (name.find("..") != std::string::npos)
+    {
+      throw std::runtime_error("invalid server name or wildcard \"" + name + "\"");
+    }
 
-  server->AddServerName(name);
+    server->AddServerName(name);
+  }
 }
 
 void ConfigParser::ParseLimitExceptDirective(const std::string &value,

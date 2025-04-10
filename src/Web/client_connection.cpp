@@ -318,7 +318,7 @@ void ClientConnection::WriteResponseData()
     {
       write_buffer_.erase(0, n);
     }
-    else
+    else // n = 0 or n < 0
     {
       break;
     }

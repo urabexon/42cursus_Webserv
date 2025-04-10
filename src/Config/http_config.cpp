@@ -1,5 +1,5 @@
 #include "../../inc/Config/http_config.h"
-
+#include <iostream>
 
 HttpConfig::HttpConfig() : keepalive_timeout_(75000), keepalive_timeout_set_(false) {
 }
@@ -114,13 +114,15 @@ bool HttpConfig::DoServerNamesConflict(const ServerConfig* first_server,
     const std::vector<std::string>& first_names = first_server->GetServerNames();
     const std::vector<std::string>& second_names = second_server->GetServerNames();
 
+    if (first_names.empty() && second_names.empty()) {
+        return true;
+    }
+
     for (std::vector<std::string>::const_iterator first_name = first_names.begin();
          first_name != first_names.end(); ++first_name) {
         for (std::vector<std::string>::const_iterator second_name = second_names.begin();
              second_name != second_names.end(); ++second_name) {
-            if (*first_name == *second_name ||
-                *first_name == "_" ||
-                *second_name == "_") {
+            if (*first_name == *second_name) {
                 return true;
             }
         }
@@ -132,10 +134,12 @@ void HttpConfig::PrintServerNameConflictWarning(const ServerConfig* server) cons
     const std::vector<std::string>& names = server->GetServerNames();
     const std::vector<ListenDirective>& listens = server->GetListenDirectives();
 
-    for (std::vector<std::string>::const_iterator name = names.begin(); name != names.end(); ++name) {
-        for (std::vector<ListenDirective>::const_iterator listen = listens.begin();
-             listen != listens.end(); ++listen) {
-            std::string host = listen->host.empty() ? "0.0.0.0" : listen->host;
-        }
+    std::string server_name = names.empty() ? "" : names[0];
+
+    for (std::vector<ListenDirective>::const_iterator listen = listens.begin();
+         listen != listens.end(); ++listen) {
+        std::string host = listen->host.empty() ? "0.0.0.0" : listen->host;
+        std::cerr << "[warn] conflicting server name \"" << (server_name == "_" ? "" : server_name)
+                  << "\" on " << host << ":" << listen->port << ", ignored" << std::endl;
     }
 }

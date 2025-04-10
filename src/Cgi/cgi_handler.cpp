@@ -2,8 +2,7 @@
 
 CgiHandler::CgiHandler()
     : childPid(-1), exitStatus(0), isCompleted(false), isRegistered(false), response(NULL), clientFd(-1), executor(), pid(-1), startTime(std::time(NULL)), timeout(60000), state_(CGI_IDLE)
-{
-}
+{}
 
 void CgiHandler::OnEvent(uint32_t events)
 {
@@ -335,6 +334,15 @@ void CgiHandler::setupChildProcess()
 
     closeAllPipes();
 
+    std::string scriptDir = scriptPath;
+    size_t lastSlash = scriptDir.find_last_of('/');
+    if (lastSlash != std::string::npos) {
+        scriptDir = scriptDir.substr(0, lastSlash);
+        if (!scriptDir.empty()) {
+            chdir(scriptDir.c_str());
+        }
+    }
+
     char **env = prepareEnvironment();
 
     if (executor.empty())
@@ -562,11 +570,7 @@ bool CgiHandler::WriteChunk(size_t &total, size_t &left)
         left -= written;
         return true;
     }
-    else if (written == -1)
-    {
-        return true;
-    }
-    else
+    else // written == 0 or written < 0
     {
         HandleWriteFailure();
         return false;

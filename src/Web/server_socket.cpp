@@ -13,8 +13,8 @@ ServerSocket::ServerSocket(int domain, int type)
   }
 
   int opt = 1;
-  if (setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0 ||
-      setsockopt(fd_, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)) < 0) {
+  if (setsockopt(fd_, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0 )
+      {
     throw std::runtime_error("setsockopt failed");
   }
   std::memset(&addr_, 0, sizeof(addr_));

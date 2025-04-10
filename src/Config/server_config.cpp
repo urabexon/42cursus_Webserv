@@ -48,6 +48,12 @@ const HttpConfig* ServerConfig::GetHttpConfig() const {
 }
 
 void ServerConfig::AddServerName(const std::string& name) {
+  for (std::vector<std::string>::const_iterator it = server_names_.begin();
+       it != server_names_.end(); ++it) {
+    if (*it == name) {
+      return;
+    }
+  }
   server_names_.push_back(name);
 }
 
