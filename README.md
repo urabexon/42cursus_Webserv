@@ -152,7 +152,7 @@ C++を用いてHTTPサーバを一から実装することで、HTTP通信の基
 - 2025/02/19~2025/04/19 (59日間 / 約2ヶ月)
 
 ## Reference🔖
-- [https://datatracker.ietf.org/doc/html/rfc2616](RFC 2616 - Hypertext Transfer Protocol -- HTTP/1.1)
+- [RFC 2616 - Hypertext Transfer Protocol -- HTTP/1.1](https://datatracker.ietf.org/doc/html/rfc2616)
 - [Beej's Guide to Network Programming](https://beej.us/guide/bgnet/)
 - [Nginx公式ドキュメント](https://nginx.org/en/docs/)
 - [https://github.com/urabexon/Webserv-DevSite](https://github.com/urabexon/Webserv-DevSite)
